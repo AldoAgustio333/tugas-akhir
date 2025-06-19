@@ -26,11 +26,14 @@ class AdminAuthController extends Controller
                 return redirect()->intended(route('admin.dashboard'));
             } else {
                 Auth::logout();
-                return back()->withErrors(['email' => 'Tidak punya akses ke halaman admin.']);
+                return redirect()->route('admin.login')->with('error', 'Tidak punya akses ke halaman admin.');
+
+
             }
         }
 
-        return back()->withErrors(['email' => 'Email atau password salah.']);
+        return redirect()->route('admin.login')->with('error', 'Email atau password salah.');
+
     }
 
     public function logout(Request $request)

@@ -1,9 +1,11 @@
 <!-- resources/views/layouts/admin.blade.php -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <title>Dashboard</title>
 
     <!-- AdminLTE CSS via CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
@@ -27,6 +29,10 @@
     background-color: #218838 !important; /* Hijau gelap saat aktif */
     color: #fff !important;
   }
+
+  .card3{
+    background-color: #218838;
+  }
 </style>
 
 
@@ -45,52 +51,87 @@
             <div class="container-fluid">
                 <div class="row">
     <!-- Jumlah User -->
-    <div class="col-lg-4 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>asjdgh</h3>
-                <p>Jumlah User</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-users"></i>
-            </div>
-            
-            
-        </div>
-    </div>
+                <div class="col-lg-4 col-6">
+                        <div class="bg-warning p-3 rounded d-flex align-items-center shadow">
+                            <div class="me-3">
+                                <i class="fas fa-user fa-2x text-white"></i>
+                            </div>
+                            <div class="mx-4">
+                                <h5 class="text-white mb-1">Jumlah User</h5>
+                                <p class="text-white mb-0">{{ $jumlahUser }}</p>
+                            </div>
+                        </div>
+                    </div>
 
-    <!-- Jumlah JBI -->
-    <div class="col-lg-4 col-6">
-        <div class="small-box bg-success">
-            <div class="inner">
-                <h3>asd</h3>
-                <p>Jumlah JBI</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-building"></i>
-            </div>
-            
-        </div>
-    </div>
+                <div class="col-lg-4 col-6">
+                        <div class="bg-success p-3 rounded d-flex align-items-center shadow">
+                            <div class="me-3">
+                                <i class="fas fa-user fa-2x text-white"></i>
+                            </div>
+                            <div class="mx-4">
+                                <h5 class="text-white mb-1">Jumlah JBI</h5>
+                                <p class="text-white mb-0">{{ $jumlahJbi }}</p>
+                            </div>
+                        </div>
+                    </div>
 
-    <!-- Jumlah Order -->
-    <div class="col-lg-4 col-6">
-        <div class="small-box bg-warning">
-            <div class="inner">
-                <h3>asdasd</h3>
-                <p>Jumlah Order</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-shopping-cart"></i>
-            </div>
-            
-                
+                <div class="col-lg-4 col-6">
+                        <div class="card3 p-3 rounded d-flex align-items-center shadow">
+                            <div class="me-3">
+                                <i class="fas fa-tasks fa-2x text-white"></i>
+                            </div>
+                            <div class="mx-4">
+                                <h5 class="text-white mb-1">Jumlah Order</h5>
+                                <p class="text-white mb-0">{{ $jumlahPemesanan }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+    <!-- Tabel Pesanan Terbaru -->
+<div class="col-12 mt-4">
+    <div class="card">
+        <div class="card-header text-white">
+            <h3 class="card-title text-dark" style="font-weight:bold;">Pesanan Terbaru</h3>
+        </div>
+        <div class="card-body table-responsive p-0">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <!-- <th>#</th> -->
+                        <th>Nama Pemesan</th>
+                        <th>Tanggal</th>
+                        <th>Jam</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($pesananTerbaru as $pemesanan)
+                        <tr>
+                            <!-- <td>{{ $loop->iteration }}</td> -->
+                            <td>{{ $pemesanan->nama_pemesan }}</td>
+                            <td>{{ $pemesanan->jbi->nama ?? '-' }}</td>
+                            <td>{{ $pemesanan->jam_awal }}</td>
+                            <td>{{ $pemesanan->status }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Belum ada pesanan.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
+
                 @yield('content')
             </div>
         </section>
     </div>
+
+    
 
     <!-- Footer -->
     @include('admin.partials.footer')
