@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\Jbi;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -18,7 +19,8 @@ class UserController extends Controller
     public function dashboard() 
     {
         
-        return view('user.dashboard');
+        $jbis = Jbi::latest()->take(5)->get(); // ambil 5 jbi terbaru
+    return view('user.dashboard', compact('jbis'));
     }   
 
     public function create()

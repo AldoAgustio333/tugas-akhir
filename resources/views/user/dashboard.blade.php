@@ -29,15 +29,42 @@
         padding-left:16px;
     }
 </style>
-    <!-- Hero Section -->
-<div class="container-fluid p-0">
-    <div class="position-relative">
-        <img src="{{ asset('images/hero.png') }}" class="img-fluid w-100" style="height: 600px; object-fit: cover;" alt="Hero Image">
-        <div class="position-absolute top-50 start-50 translate-middle text-white text-center">
-            <!-- <h1 class="fw-bold">Selamat Datang di Platform Kami</h1>
-            <p class="fs-5">Solusi layanan terbaik untuk Anda</p> -->
-        </div>
+<!-- Hero Section Carousel -->
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+        @php
+            $heroImages = [
+                'images/hero1.jpeg',
+                'images/hero2.jpeg',
+                'images/hero3.jpeg',
+                'images/hero4.jpeg',
+                'images/hero5.jpeg',
+            ];
+        @endphp
+
+        @foreach ($heroImages as $index => $image)
+            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                <img src="{{ asset($image) }}" class="d-block w-100" style="height: 600px; object-fit: cover;" alt="Hero Image {{ $index + 1 }}">
+                <div class="carousel-caption d-none d-md-block">
+                    {{-- Optional: Text caption di sini --}}
+                    {{-- <h5>Judul Slide {{ $index + 1 }}</h5>
+                    <p>Deskripsi singkat</p> --}}
+                </div>
+            </div>
+        @endforeach
+
     </div>
+
+    <!-- Optional Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
 
 <!-- Section Pemesanan -->
@@ -128,59 +155,25 @@
         <h2 class="mb-5 fw-bold">Juru Bahasa Isyarat</h2>
 
         <div class="row justify-content-center">
-            <!-- Card 1 -->
-            <div class="col-6 col-sm-4 col-md-2 mb-4">
-                <div class="card text-white" style="background-color: #14532d;">
-                    <img src="{{ asset('images/jbi1.jpg') }}" class="card-img-top" alt="Team 1">
+    @foreach($jbis as $jbi)
+        <div class="col-6 col-sm-4 col-md-2 mb-4">
+            <a href="{{ route('user.jbi.order', $jbi->id) }}" class="text-decoration-none">
+                <div class="card text-white h-100" style="background-color: #14532d;">
+                    @if ($jbi->foto)
+                        <img src="{{ asset('uploads/foto_jbi/' . $jbi->foto) }}" class="card-img-top" alt="Foto {{ $jbi->nama }}">
+                    @else
+                        <img src="{{ asset('img/default.jpg') }}" class="card-img-top" alt="Foto Default">
+                    @endif
                     <div class="card-body p-2">
-                        <h7 class="card-title mb-1">Aulia Azzahra</h7>
-                        <span class="badge bg-success px-3 py-1 text-white">JBI Dengar</span>
+                        <h7 class="card-title mb-1 text-white">{{ $jbi->nama }}</h7>
+                        <span class="badge bg-success px-3 py-1 text-white">{{ $jbi->keahlian }}</span>
                     </div>
                 </div>
-            </div>
-            <div class="col-6 col-sm-4 col-md-2 mb-4">
-                <div class="card text-white" style="background-color: #14532d;">
-                    <img src="{{ asset('images/jbi2.jpg') }}" class="card-img-top" alt="Team 1">
-                    <div class="card-body p-2">
-                        <h7 class="card-title mb-1">Fadillah Riski Amelia</h7>
-                        <span class="badge bg-success  px-3 py-1 text-white">JBI Dengar</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="col-6 col-sm-4 col-md-2 mb-4">
-                <div class="card text-white" style="background-color: #14532d;">
-                    <img src="{{ asset('images/jbi3.jpg') }}" class="card-img-top" alt="Team 2">
-                    <div class="card-body p-2">
-                        <h7 class="card-title mb-1">Farin Alfarizi Hasbi</h7>
-                        <span class="badge bg-success  px-3 py-1 text-white">JBI Dengar</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="col-6 col-sm-4 col-md-2 mb-4">
-                <div class="card text-white" style="background-color: #14532d;">
-                    <img src="{{ asset('images/jbi4.jpg') }}" class="card-img-top" alt="Team 3">
-                    <div class="card-body p-2">
-                        <h7 class="card-title mb-1">Rizki Geo Rivanda</h7>
-                        <span class="badge bg-success  px-3 py-1 text-white">JBI Dengar</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="col-6 col-sm-4 col-md-2 mb-4">
-                <div class="card text-white" style="background-color: #14532d;">
-                    <img src="{{ asset('images/jbi5.jpg') }}" class="card-img-top" alt="Team 4">
-                    <div class="card-body p-2">
-                        <h7 class="card-title mb-1">Meisi Maulida R.G</h7>
-                        <span class="badge bg-success text-white px-3 py-1">JBI Dengar</span>
-                    </div>
-                </div>
-            </div>
+            </a>
         </div>
+    @endforeach
+</div>
+
     </div>
 </section>
 

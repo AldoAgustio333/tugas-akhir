@@ -44,6 +44,17 @@ select.form-control {
      .form-control {
         font-size: 12px; /* ubah ke ukuran yang kamu mau, misal 10px */
     }
+
+    .ahli{
+        background-color:green;
+        color:white;
+        text-align:center;
+        border-radius:5px;
+    }
+
+    .ahli p{
+        padding:10px;
+    }
 </style>
 <div class="container mt-4">
     <h3 class="mb-4">Formulir Pemesanan</h3>
@@ -71,6 +82,14 @@ select.form-control {
 
                     <table style="width: 100%; border-collapse: collapse;">
     <tr>
+        <h5 style="text-align:center;">{{ $jbi->nama ?? '-' }}</h5>
+    </tr>
+    <tr>
+        <div class="ahli">
+            <p >{{ $jbi->keahlian ?? '-' }}</p>
+        </div>
+    </tr>
+    <tr class="mt-3">
         <td style="padding: 4px 0; font-weight: bold;">Jenis Kelamin</td>
         <td style="padding: 4px 10px;">:</td>
         <td style="padding: 4px 0;">{{ $jbi->jk ?? '-' }}</td>

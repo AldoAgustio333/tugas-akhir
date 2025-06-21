@@ -27,9 +27,7 @@ Route::get('/', function () {
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('user.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
     Route::get('profil', [UserController::class, 'profil'])->name('user.profil');
     Route::post('/profil/update', [UserController::class, 'updateProfil'])->name('user.updateProfil');
