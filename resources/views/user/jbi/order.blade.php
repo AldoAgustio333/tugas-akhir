@@ -58,9 +58,12 @@ select.form-control {
 </style>
 <div class="container mt-4">
     <h3 class="mb-4">Formulir Pemesanan</h3>
-<p class="" style="color:gray; font-size:12px; margin-top:-15px;">
-            <i class="fas fa-home" ></i> Home > Juru Bahasa Isyarat > Order
-            </p>
+<p class="mt-2" style="color:gray; font-size:12px">
+        <i class="fas fa-home"></i> 
+        <a href="{{ route('user.dashboard') }}" style="text-decoration: none; color:gray;">
+            Home
+        </a> > Juru Bahasa Isyarat > Order
+    </p>
     <div class="row">
         <!-- Kolom Kiri: Profil JBI -->
         <div class="col-md-3 mb-4 details">

@@ -80,12 +80,15 @@ select.form-control {
 
 <div class="container mt-4 jbibody">
     <div class="row mb-4 align-items-center">
-    <div class="col-md-6">
-        <h3 class="mb-0 fw-bold">Juru Bahasa Isyarat</h3>
-        <p class="mt-2" style="color:gray; font-size:12px">
-            <i class="fas fa-home" ></i> Home > Juru Bahasa Isyarat
-            </p>
-    </div>
+<div class="col-md-6">
+    <h3 class="mb-0 fw-bold">Juru Bahasa Isyarat</h3>
+    <p class="mt-2" style="color:gray; font-size:12px">
+        <i class="fas fa-home"></i> 
+        <a href="{{ route('user.dashboard') }}" style="text-decoration: none; color:gray;">
+            Home
+        </a> > Juru Bahasa Isyarat
+    </p>
+</div>
     <div class="col-md-6">
         <form method="GET" action="{{ route('user.jbi.index') }}">
             <div class="row g-2">

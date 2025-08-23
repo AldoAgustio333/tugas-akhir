@@ -62,6 +62,7 @@
         <th>No. HP</th>
         <th>Ketersediaan</th>
         <th>Jadwal</th>
+        <th>Status</th>
         <th>Aksi</th>
   </tr>
 </thead>
@@ -74,6 +75,7 @@
         <td>{{ $jbi->no_hp }}</td>
         <td>{{ $jbi->ketersediaan }}</td>
         <td>{{ $jbi->jadwal }}</td>
+        <td>{{ $jbi->status }}</td>
     <td>
       <!-- Tombol Detail -->
       <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalDetailJbi{{ $jbi->id }}">
@@ -205,6 +207,12 @@
             </select>
           </div>
 
+          <select name="status" class="form-control">
+    <option value="aktif" {{ $jbi->status == 'aktif' ? 'selected' : '' }}>Aktif</option>
+    <option value="tidak aktif" {{ $jbi->status == 'tidak aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+</select>
+
+
           <div class="form-group">
             <label>Foto Baru (opsional):</label>
             <input type="file" name="foto" class="form-control-file">
@@ -295,6 +303,15 @@
               <option value="Berbayar">Berbayar</option>
             </select>
           </div>
+
+          <div class="form-group">
+            <!-- <label for="status">Status</label> -->
+            <select name="status" id="status" class="form-control">
+              <option value="">-- Pilih Status --</option>
+                <option value="aktif">Aktif</option>
+                <option value="tidak aktif">Tidak Aktif</option>
+            </select>
+        </div>
 
 
           <div class="form-group">

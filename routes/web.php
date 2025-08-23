@@ -8,7 +8,7 @@ use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\User\NotifikasiController;
 use App\Http\Controllers\Admin\PemesananController;
 use App\Http\Controllers\TestimoniController;
-
+use App\Http\Controllers\ReportController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,7 +67,8 @@ Route::middleware(['auth', 'role:ketua_uld'])->prefix('admin')->name('admin.')->
     Route::get('/pemesanan', [PemesananController::class, 'index'])->name('pemesanan.index');
     Route::get('/pemesanan/{id}', [PemesananController::class, 'show'])->name('pemesanan.show');
     Route::put('/pemesanan/{id}/terima', [PemesananController::class, 'terima'])->name('pemesanan.terima');
-
-
+    Route::get('/report/export-pdf', [ReportController::class, 'exportPdf'])->name('report.exportPdf');
+    Route::get('/report/exportPdfJbi', [ReportController::class, 'exportPdfJbi'])->name('report.exportPdfJbi');
+    
 
 });

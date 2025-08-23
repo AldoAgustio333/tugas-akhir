@@ -40,15 +40,27 @@
     <!-- Sidebar -->
     @include('admin.partials.sidebar')
        <div class="content-wrapper p-3">
+
+
+        
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center">
-        <div>
-            <h3>Laporan Data Pemesanan</h3>
+     <div class="d-flex justify-content-between align-items-center">
+        <h3>Laporan Data Pemesanan</h3>
+        <div class="d-flex gap-2">
+            <form method="GET" action="{{ route('admin.report.index') }}" class="d-flex align-items-center gap-2">
+                <div style="min-width: 200px;">
+                    <input type="date" id="tanggal" name="tanggal" class="form-control" value="{{ request('tanggal') }}">
+                </div>
+                <button type="submit" class="btn btn-success mx-2">Tampilkan</button>
+            </form>
+            <a href="{{ route('admin.report.exportPdf', ['tanggal' => request('tanggal')]) }}" 
+               class="btn btn-danger">
+               Cetak 
+            </a>
         </div>
-        <form method="GET" action="{{ route('admin.report.index') }}" class="d-flex align-items-end gap-2">
-            <input type="date" id="tanggal" name="tanggal" class="form-control" value="{{ request('tanggal') }}">
-            <button type="submit" class="btn btn-success">Tampilkan</button>
-        </form></div>
+    </div>
+</div>
+
  
     <table class="table table-bordered mt-3">
         <thead>
@@ -104,7 +116,13 @@
 
       
 <div class="container mt-4">
-    <h3>Laporan Ketersediaan JBI</h3>
+    <div class="d-flex justify-content-between align-items-center">
+ <h3>Laporan Ketersediaan JBI</h3>
+    <a href="{{ route('admin.report.exportPdfJbi') }}" class="btn btn-danger">
+            Cetak 
+        </a>
+</div>
+   
     <table class="table table-bordered mt-3">
         <thead>
             <tr>

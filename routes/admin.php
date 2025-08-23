@@ -32,7 +32,6 @@ Route::middleware(['auth', 'role:admin,ketua_uld'])->group(function () {
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::put('users/{id}', [UserController::class, 'updateUser'])->name('users.update');
 
-
     Route::get('/jbi', [JbiController::class, 'index'])->name('jbi.index');
     Route::get('/jbi/create', [JbiController::class, 'create'])->name('admin.jbi.create');
     Route::post('/jbi/store', [JbiController::class, 'store'])->name('jbi.store');
@@ -40,19 +39,17 @@ Route::middleware(['auth', 'role:admin,ketua_uld'])->group(function () {
     Route::delete('jbi/{jbi}', [JbiController::class, 'destroy'])->name('jbi.destroy');
     Route::put('/jbi/{id}', [JbiController::class, 'updateJBI'])->name('jbi.update');
 
-
-
     // Report
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+    Route::get('/report/export-pdf', [ReportController::class, 'exportPdf'])->name('report.exportPdf');
+    Route::get('/report/exportPdfJbi', [ReportController::class, 'exportPdfJbi'])->name('report.exportPdfJbi');
 
-    
     Route::get('/pemesanan', [PemesananController::class, 'index'])->name('pemesanan.index');
     Route::get('/pemesanan/{id}', [PemesananController::class, 'show'])->name('pemesanan.show');
     Route::delete('/pemesanan/{id}', [PemesananController::class, 'destroy'])->name('pemesanan.destroy');
     Route::put('/admin/pemesanan/{id}/terima', [PemesananController::class, 'terima'])->name('admin.pemesanan.terima');
 
     Route::get('/admin/laporan/pemesanan', [ReportController::class, 'pemesanan'])->name('laporan.pemesanan');
-
 
 
 

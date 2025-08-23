@@ -36,9 +36,11 @@
 
 
 <aside class="main-sidebar elevation-4">
-  <a href="{{ route('admin.dashboard') }}" class="brand-link">
-    <span class="brand-text font-weight-light">Logo</span>
-  </a>
+  <div class="container">
+    <a class="navbar-brand" href="{{ url('/') }}">
+    <img src="{{ asset('images/logo.png') }}" alt="Logo" height="40" class="ml-4" >
+</a>
+  </div>
   <div class="sidebar">
     <nav class="mt-2">
       <ul class="nav nav-sidebar flex-column" data-widget="treeview">

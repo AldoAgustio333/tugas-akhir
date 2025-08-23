@@ -50,6 +50,7 @@ class JbiController extends Controller
         'jadwal' => 'required|string|max:255',
         'alamat' => 'required|string',
         'layanan' => 'required|in:Gratis,Berbayar',
+        'status' => 'required|in:aktif,tidak aktif',
         'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
     ]);
 
@@ -69,6 +70,7 @@ class JbiController extends Controller
         'jadwal' => $validated['jadwal'],
         'alamat' => $validated['alamat'],
         'layanan' => $validated['layanan'],
+        'status' => $validated['status'],
         'foto' => $fotoName,
     ]);
 
@@ -92,21 +94,32 @@ class JbiController extends Controller
         return view('admin.jbi.edit', compact('jbi'));
     }
 
-    public function update(Request $request, Jbi $jbi)
-    {
-        $request->validate([
-            'nama' => 'required',
-            'keahlian' => 'required',
-            'jk' => 'required',
-            'no_hp' => 'required',
-            'ketersediaan' => 'required',
-            'jadwal' => 'required',
-        ]);
+public function update(Request $request, Jbi $jbi)
+{
+    $request->validate([
+        'nama' => 'required',
+        'keahlian' => 'required',
+        'jk' => 'required',
+        'no_hp' => 'required',
+        'ketersediaan' => 'required',
+        'jadwal' => 'required',
+        'status' => 'required|in:aktif,tidak aktif',
+    ]);
 
-        $jbi->update($request->all());
+    $jbi->update([
+        'nama' => $request->nama,
+        'keahlian' => $request->keahlian,
+        'jk' => $request->jk,
+        'no_hp' => $request->no_hp,
+        'ketersediaan' => $request->ketersediaan,
+        'jadwal' => $request->jadwal,
+        'status' => $request->status, 
+        'layanan' => $request->layanan ?? $jbi->layanan,
+        'alamat' => $request->alamat ?? $jbi->alamat,
+    ]);
 
-        return redirect()->route('admin.jbi.index')->with('success', 'JBI berhasil diperbarui');
-    }
+    return redirect()->route('admin.jbi.index')->with('success', 'JBI berhasil diperbarui');
+}
 
     public function destroy(Jbi $jbi)
     {
@@ -290,6 +303,7 @@ public function updateJBI(Request $request, $id)
         'jadwal' => 'required|string',
         'alamat' => 'required|string',
         'layanan' => 'required|in:Gratis,Berbayar',
+        'status' => 'required|in:aktif,tidak aktif',
         'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
@@ -302,6 +316,7 @@ public function updateJBI(Request $request, $id)
     $jbi->jadwal = $request->jadwal;
     $jbi->alamat = $request->alamat;
     $jbi->layanan = $request->layanan;
+    $jbi->status = $request->status;
 
     // Upload foto jika ada
     if ($request->hasFile('foto')) {
@@ -310,7 +325,7 @@ public function updateJBI(Request $request, $id)
         $foto->move(public_path('uploads/foto_jbi'), $filename);
         $jbi->foto = $filename;
     }
-
+    
     // Simpan semua perubahan
     $jbi->save();
 
