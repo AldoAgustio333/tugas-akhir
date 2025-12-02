@@ -12,7 +12,7 @@ class Jbi extends Model
     protected $table = 'jbis';
 
     protected $fillable = [
-        'nama', 'keahlian', 'jk', 'no_hp', 'ketersediaan', 'jadwal', 'alamat', 'layanan', 'status', 'foto',
+        'nama', 'keahlian', 'jk', 'no_hp', 'ketersediaan', 'jadwal', 'alamat', 'layanan', 'status', 'jam', 'jam_selesai', 'foto',
     ];
 
     public function pemesanans()

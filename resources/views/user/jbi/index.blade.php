@@ -28,13 +28,12 @@
         border-radius:10px;
     }
 
-    img.card-img-top {
-    width: 100%;
-    height: auto;
-    max-height: 300px;
-    object-fit: cover;
-    border-radius: 10px;
-}
+    .card-img-top {
+        object-fit: cover;
+        width: 100%;
+        height: 200px;
+        border-radius: 10px;
+    }
 
 .card-custom-bg img{
     height:200px;
@@ -47,6 +46,121 @@
 
 .jbibody{
     min-height:600px;
+}
+
+/* Styles untuk JBI tidak aktif */
+.card.inactive {
+    opacity: 0.6;
+    position: relative;
+}
+
+.card.inactive::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 1;
+    border-radius: 0.25rem;
+}
+
+.card.inactive .btn {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.badge-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    font-size: 10px;
+}
+
+/* Responsive Design for JBI cards */
+.card-custom-bg {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-custom-bg:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.card-custom-bg img {
+    object-fit: cover;
+    width: 100%;
+    height: 200px;
+}
+
+@media (max-width: 1200px) {
+    .col-5-per-row {
+        width: 25%;
+    }
+}
+
+@media (max-width: 992px) {
+    .col-5-per-row {
+        width: 33.333%;
+    }
+}
+
+@media (max-width: 768px) {
+    .col-5-per-row {
+        width: 50%;
+        padding: 8px;
+    }
+    .card-custom-bg img {
+        height: 180px;
+    }
+    h3 {
+        font-size: 1.5rem;
+    }
+    .form-control {
+        font-size: 12px;
+    }
+    .about-section {
+        padding: 30px 20px;
+    }
+    .about-section h2 {
+        font-size: 1.5rem;
+    }
+    .about-section .lead {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .col-5-per-row {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 15px;
+    }
+    .card-custom-bg img {
+        height: 200px;
+    }
+    .row.g-2 {
+        flex-direction: column;
+    }
+    .row.g-2 .col {
+        margin-bottom: 10px;
+    }
+    h3 {
+        font-size: 1.3rem;
+    }
+    .about-section {
+        padding: 20px 15px;
+    }
+    .about-section h2 {
+        font-size: 1.3rem;
+    }
+    .about-section p {
+        font-size: 0.9rem;
+    }
 }
 
 input::placeholder {
@@ -75,6 +189,17 @@ select.form-control {
         .col-5-per-row {
             width: 100%; /* Responsif untuk mobile */
         }
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .about-section {
+        background-color: #f8f9fa;
+        padding: 40px;
+        border-radius: 10px;
+        margin-bottom: 40px;
     }
 </style>
 
@@ -117,7 +242,14 @@ select.form-control {
         <div class="d-flex flex-wrap">
             @foreach($jbis as $jbi)
                 <div class="col-5-per-row">
-                    <div class="card h-100 d-flex flex-column card-custom-bg">
+                    <div class="card h-100 d-flex flex-column card-custom-bg {{ $jbi->status !== 'aktif' ? 'inactive' : '' }}">
+                        <!-- Status Badge -->
+                        @if($jbi->status !== 'aktif')
+                            <span class="badge bg-danger badge-status">Tidak Aktif</span>
+                        @else
+                            <span class="badge bg-success badge-status">Aktif</span>
+                        @endif
+                        
                         @if($jbi->foto)
                             <img src="{{ asset('uploads/foto_jbi/' . $jbi->foto) }}"
                                 class="card-img-top img-fluid"
@@ -133,16 +265,30 @@ select.form-control {
                             <h7 class="card-title text-white" style="font-size: 14px;">{{ $jbi->nama }}</h7>
                             <p class="card-text text-white" style="font-size: 10px;">
                                 <strong class="geser" style="font-size: 10px;">Layanan:</strong> {{ $jbi->keahlian }} <br>
-                                <!-- <strong>JK:</strong> {{ $jbi->jk }} <br>
-                                <strong>No HP:</strong> {{ $jbi->no_hp }} <br> -->
-                                <strong class="geser" style="font-size: 10px;">Jadwal:</strong> {{ $jbi->jadwal }}
+                                <strong class="geser" style="font-size: 10px;">Jadwal:</strong> {{ $jbi->jadwal }} <br>
+                                <strong class="geser" style="font-size: 10px;">Status:</strong> 
+                                <span class="{{ $jbi->status === 'aktif' ? 'text-white' : 'text-warning' }}">
+                                    {{ $jbi->status === 'aktif' ? 'Tersedia' : 'Tidak Tersedia' }}
+                                </span>
                             </p>
-                            <a href="{{ route('user.jbi.order', $jbi->id) }}" class="btn text-white font-bold btn-sm mt-auto w-100 order">Order</a>
+                            
+                            @if($jbi->status === 'aktif')
+                                <a href="{{ route('user.jbi.order', $jbi->id) }}" class="btn text-white font-bold btn-sm mt-auto w-100 order">Order</a>
+                            @else
+                                <button class="btn btn-secondary btn-sm mt-auto w-100" disabled>Tidak Tersedia</button>
+                            @endif
                         </div>
                     </div>
                 </div>
 
             @endforeach
+        </div>
+    @endif
+
+    <!-- Pagination if needed -->
+    @if($jbis->hasPages())
+        <div class="d-flex justify-content-center mt-4">
+            {{ $jbis->links() }}
         </div>
     @endif
 </div>

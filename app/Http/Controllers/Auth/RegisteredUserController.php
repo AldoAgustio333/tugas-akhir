@@ -36,25 +36,27 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'jk' => ['required', 'in:Laki-laki,Perempuan'],
             'no_hp' => ['required', 'string', 'max:20'],
-            'status' => ['required', 'in:Mahasiswa,Umum'],
+            'status' => ['required', 'in:mahasiswa,umum'],
             'npm' => ['nullable', 'string', 'max:20'],
             'fakultas' => ['nullable', 'string', 'max:255'],
             'program_studi' => ['nullable', 'string', 'max:255'],
             'kelas' => ['nullable', 'string', 'max:100'],
         ]);
 
-
+        // Normalisasi status untuk memastikan konsistensi
+        $status = strtolower($request->status);
+        
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'jk' => $request->jk,
             'no_hp' => $request->no_hp,
-            'status' => $request->status,
-            'npm' => $request->status === 'Mahasiswa' ? $request->npm : null,
-            'fakultas' => $request->status === 'Mahasiswa' ? $request->fakultas : null,
-            'program_studi' => $request->status === 'Mahasiswa' ? $request->program_studi : null,
-            'kelas' => $request->status === 'Mahasiswa' ? $request->kelas : null,
+            'status' => $status, // Gunakan status yang sudah dinormalisasi
+            'npm' => $status === 'mahasiswa' ? $request->npm : null,
+            'fakultas' => $status === 'mahasiswa' ? $request->fakultas : null,
+            'program_studi' => $status === 'mahasiswa' ? $request->program_studi : null,
+            'kelas' => $status === 'mahasiswa' ? $request->kelas : null,
             'role' => 'user',
         ]);
 

@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>@yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -14,6 +17,35 @@
   <style>
     .nav-item a{
         font-size:12px;
+    }
+    
+    .nav-item form {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .nav-item form button {
+        background: none !important;
+        border: none !important;
+        padding: 8px 16px !important;
+        font-size: 12px !important;
+        color: white !important;
+        text-decoration: none !important;
+        display: inline-block !important;
+        line-height: 1.5 !important;
+    }
+    
+    .nav-item form button:hover {
+        color: rgba(255, 255, 255, 0.75) !important;
+    }
+    
+    .navbar-nav .nav-item {
+        display: flex;
+        align-items: center;
+    }
+    
+    .navbar-nav {
+        align-items: center;
     }
   </style>
 <body>
@@ -39,11 +71,12 @@
 
                     <li class="nav-item mx-2"><a class="nav-link text-white" href="{{ route('riwayat.index') }}">Riwayat</a></li>
                     <li class="nav-item mx-2"><a class="nav-link text-white" href="{{ route('user.profil') }}">Profile</a></li>
-                    <li class="nav-item mx-2"><form action="/logout" method="POST" class="d-inline">
-        <!-- Jika menggunakan Laravel, jangan lupa csrf token -->
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <button class="btn border-0 text-white" type="submit" style="font-size:12px;">Logout</button>
-    </form></li>
+                    <li class="nav-item mx-2">
+                        <form action="/logout" method="POST" class="d-inline m-0">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <button class="nav-link text-white bg-transparent border-0 p-0" type="submit" style="font-size:12px;">Logout</button>
+                        </form>
+                    </li>
 
                     @if (Route::currentRouteName() === 'user.dashboard')
                         <li class="nav-item ms-2">
@@ -123,16 +156,54 @@
     });
 </script>
 @endif
+
+@if (session('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: '{{ session('error') }}',
+        confirmButtonColor: '#d33'
+    });
+</script>
+@endif
+
+@if (session('info'))
+<script>
+    Swal.fire({
+        icon: 'info',
+        title: 'Info',
+        text: '{{ session('info') }}',
+        confirmButtonColor: '#0d6efd'
+    });
+</script>
+@endif
+
 @if ($errors->any())
     <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Login Gagal',
-            text: '{{ $errors->first() }}',
-            confirmButtonColor: '#d33'
-        });
+        let errorMessages = [];
+        @foreach ($errors->all() as $error)
+            errorMessages.push('{{ $error }}');
+        @endforeach
+        
+        if (errorMessages.length === 1) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: errorMessages[0],
+                confirmButtonColor: '#d33'
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Beberapa Kesalahan',
+                html: '<ul style="text-align: left;">' + errorMessages.map(msg => '<li>' + msg + '</li>').join('') + '</ul>',
+                confirmButtonColor: '#d33'
+            });
+        }
     </script>
 @endif
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script src="{{ asset('js/file-validation.js') }}"></script>
 </body>
 </html>

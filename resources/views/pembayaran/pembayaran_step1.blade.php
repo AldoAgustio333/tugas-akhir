@@ -23,6 +23,48 @@
     .payment-option input[type="radio"] {
         transform: scale(1.2);
     }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .card {
+            margin: 10px;
+            padding: 15px;
+            max-width: calc(100% - 20px) !important;
+        }
+        .card-body {
+            padding: 20px 15px;
+        }
+        .payment-option {
+            padding: 15px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        h5 {
+            font-size: 1.2rem;
+        }
+        .btn {
+            padding: 12px;
+            font-size: 16px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .card {
+            margin: 5px;
+            padding: 10px;
+        }
+        .card-body {
+            padding: 15px 10px;
+        }
+        .payment-option {
+            padding: 12px;
+            font-size: 13px;
+        }
+        h5 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+    }
 </style>
 
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">

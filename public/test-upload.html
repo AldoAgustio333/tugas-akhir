@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Upload File - JBI Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .test-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .file-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #007bff;
+        }
+        .test-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="test-container">
+            <h2 class="text-center mb-4">
+                <i class="fas fa-upload me-2"></i>Test Upload File JBI Platform
+            </h2>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Petunjuk:</strong> Pilih file untuk menguji validasi upload. 
+                Sistem akan mengecek format dan ukuran file tanpa menyimpannya.
+            </div>
+
+            <form id="test-form">
+                <div class="mb-3">
+                    <label for="test-file" class="form-label">
+                        <i class="fas fa-file-upload me-2"></i>Pilih File untuk Test:
+                    </label>
+                    <input type="file" 
+                           id="test-file" 
+                           name="test_file" 
+                           class="form-control" 
+                           accept="image/*,application/pdf">
+                    <small class="text-muted">
+                        <strong>Format yang didukung:</strong> JPG, JPEG, PNG, GIF, PDF<br>
+                        <strong>Ukuran maksimal:</strong> 10MB
+                    </small>
+                </div>
+
+                <div id="file-details" class="file-info" style="display: none;">
+                    <h6><i class="fas fa-file-alt me-2"></i>Detail File:</h6>
+                    <div id="file-info-content"></div>
+                </div>
+
+                <div id="test-result" class="test-result" style="display: none;"></div>
+
+                <button type="button" id="test-btn" class="btn btn-primary" disabled>
+                    <i class="fas fa-check me-2"></i>Test Validasi
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('test-file');
+        const fileDetails = document.getElementById('file-details');
+        const fileInfoContent = document.getElementById('file-info-content');
+        const testBtn = document.getElementById('test-btn');
+        const testResult = document.getElementById('test-result');
+
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            
+            if (file) {
+                // Show file details
+                const fileSizeMB = (file.size / 1024 / 1024).toFixed(2);
+                const fileType = file.type;
+                const fileName = file.name;
+                
+                fileInfoContent.innerHTML = `
+                    <p><strong>Nama:</strong> ${fileName}</p>
+                    <p><strong>Ukuran:</strong> ${fileSizeMB} MB</p>
+                    <p><strong>Tipe:</strong> ${fileType}</p>
+                    <p><strong>Ekstensi:</strong> .${fileName.split('.').pop()}</p>
+                `;
+                
+                fileDetails.style.display = 'block';
+                testBtn.disabled = false;
+            } else {
+                fileDetails.style.display = 'none';
+                testBtn.disabled = true;
+                testResult.style.display = 'none';
+            }
+        });
+
+        testBtn.addEventListener('click', function() {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            // Perform validation tests
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'application/pdf'];
+            const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf'];
+            
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            const fileSizeMB = (file.size / 1024 / 1024).toFixed(2);
+            
+            let errors = [];
+            let warnings = [];
+            
+            // Check file size
+            if (file.size > maxSize) {
+                errors.push(`Ukuran file terlalu besar (${fileSizeMB}MB). Maksimal 10MB.`);
+            }
+            
+            // Check file type
+            if (!allowedTypes.includes(file.type)) {
+                errors.push(`Tipe MIME tidak didukung: ${file.type}`);
+            }
+            
+            // Check file extension
+            if (!allowedExtensions.includes(fileExtension)) {
+                errors.push(`Ekstensi file tidak didukung: .${fileExtension}`);
+            }
+            
+            // Check file integrity
+            if (file.size === 0) {
+                errors.push('File kosong atau rusak.');
+            }
+            
+            // Display results
+            testResult.style.display = 'block';
+            
+            if (errors.length === 0) {
+                testResult.className = 'test-result success';
+                testResult.innerHTML = `
+                    <h6><i class="fas fa-check-circle me-2"></i>Validasi Berhasil!</h6>
+                    <p>File "${file.name}" (${fileSizeMB}MB) memenuhi semua kriteria dan dapat diupload.</p>
+                    ${warnings.length > 0 ? '<hr><p><strong>Peringatan:</strong><br>' + warnings.join('<br>') + '</p>' : ''}
+                `;
+                
+                Swal.fire({
+                    title: 'File Valid!',
+                    text: `File ${file.name} dapat diupload ke sistem.`,
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#28a745'
+                });
+            } else {
+                testResult.className = 'test-result error';
+                testResult.innerHTML = `
+                    <h6><i class="fas fa-times-circle me-2"></i>Validasi Gagal!</h6>
+                    <p><strong>Error yang ditemukan:</strong></p>
+                    <ul>
+                        ${errors.map(error => `<li>${error}</li>`).join('')}
+                    </ul>
+                    <p class="mb-0">Silakan pilih file lain yang memenuhi kriteria.</p>
+                `;
+                
+                Swal.fire({
+                    title: 'File Tidak Valid!',
+                    text: 'File tidak memenuhi kriteria sistem.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>

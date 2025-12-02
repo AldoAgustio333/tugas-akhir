@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         * {
-        font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
         }
 
         body {
@@ -22,88 +23,174 @@
         }
 
         .login-container {
-            width: 100%;
+            width: 90%;
             max-width: 800px;
             background-color: #fff;
-            /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
             overflow: hidden;
             display: flex;
             flex-direction: row;
-            height:500px;
+            height: 500px;
         }
 
         .left-side {
-            background-color: #005C3C;
+            background: linear-gradient(to bottom, #1E7D4E, #13603B); /* Gradient dari hijau muda ke hijau tua */
             color: white;
             padding: 50px 30px;
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items:center;
-            text-align:center;
-            border-top-right-radius: 60px;
-            border-bottom-right-radius: 60px;
-            
+            align-items: center;
+            text-align: center;
+            border-radius: 10px 0 0 10px;
         }
 
         .left-side h2 {
-            font-weight: bold;
-            font-size:20px;
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .left-side p {
+            font-size: 15px;
         }
 
         .right-side {
             padding: 50px 30px;
             flex: 1;
-            display:flex;
-            align-items:center;
-            flex-direction:column;
-            justify-content:center;
-            text-align:center;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+            gap: 15px;
+        }
+
+        .right-side h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .right-side form {
+            width: 100%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         .btn-green {
             background-color: #13603B;
             color: white;
-            width:100%;
-            padding:10px 20px;
-            margin-top:10px;
-            border:none;
-            border-radius:10px;
+            width: 100%;
+            padding: 10px 20px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 7px;
+            font-weight: 600;
+            cursor: pointer;
         }
 
-        a{
-            color:#13603B;
-            text-decoration:none;
+        .btnYellow {
+            background: orange;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: white;
+            border-radius: 50px; /* Bentuk tombol lebih oval */
+            width: 150px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 20px;
+            transition: transform 0.3s ease, background-color 0.3s ease; /* Add smooth transition */
         }
 
-        .btnYellow{
-            background:orange;
-            padding:5px 15px;
-            text-decoration:none;
-            color:white;
-            border-radius:7px;
-            width:100px;
+        .btnYellow:hover {
+            transform: scale(1.1); /* Slightly enlarge button on hover */
+            background-color: #ff9800; /* Change background color on hover */
         }
 
-        input{
-            margin-bottom:10px;
-            padding:10px 20px;
-            border:1px solid gray;
-            outline:none;
-            width:250px;
+        input {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            outline: none;
+            width: 100%;
+            border-radius: 7px;
+            font-size: 14px;
         }
 
-        p{
-            font-size:13px;
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-container input {
+            padding: 12px 15px;
+            width: 100%;
+        }
+
+        .password-container i {
+            position: absolute;
+            right: 15px;
+            top: 40%; /* Naikkan posisi ikon mata */
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: gray;
+            z-index: 10;
+        }
+
+        input[type="email"]::placeholder, input[type="password"]::placeholder {
+            color: #aaa;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        a {
+            color: #13603B;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .mb-3 {
+            margin-bottom: 10px;
+            width: 100%;
         }
 
         @media (max-width: 768px) {
             .login-container {
                 flex-direction: column;
+                height: auto;
             }
-            .left-side, .right-side {
-                padding: 30px;
+            .left-side {
+                border-radius: 10px 10px 0 0;
+                height: 200px;
+            }
+            .right-side {
+                border-radius: 0 0 10px 10px;
+            }
+            .right-side form {
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .login-container {
+                flex-direction: column;
+                height: auto;
+            }
+            .left-side {
+                height: 250px;
+            }
+            .right-side form {
+                max-width: 400px;
             }
         }
     </style>
@@ -112,29 +199,32 @@
 
     <div class="login-container">
 
-        <!-- Left (Welcome) Side -->
         <div class="left-side">
             <h2>Halo, Selamat Datang!</h2>
             <p style="margin-top:-5px;">Apakah Kamu Belum Memiliki Akun?</p>
             <a href="{{ route('register') }}" class="btn btn-warning mt-2 btnYellow">Daftar</a>
         </div>
 
-        <!-- Right (Form) Side -->
         <div class="right-side">
             <h3 class="mb-4">Masuk</h3>
+            
+            <p style="font-size:14px; margin-bottom: 20px; color:#555;">Gunakan email dan kata sandi akunmu untuk melanjutkan.</p>
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
+                <label for="username" class="form-label">Email</label>
                 <div class="mb-3">
-                    <input id="username" type="email" placeholder="username" name="email" class="form-control" required autofocus>
+                    <input id="username" type="email" placeholder="admin@example.com" name="email" class="form-control" required autofocus>
+                </div>
+                
+                <label for="password" class="form-label">Kata Sandi</label>
+                <div class="mb-3 password-container">
+                    <input id="password" type="password" placeholder="••••••••" name="password" class="form-control" required>
+                    <i class="fa-solid fa-eye" id="togglePassword"></i>
                 </div>
 
-                <div class="mb-3">
-                    <input id="password" type="password" placeholder="password" name="password" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
+                <div style="width:100%; text-align:right;">
                     <a href="{{ route('password.request') }}" class="text-decoration-none">Lupa Password?</a>
                 </div>
 
@@ -143,6 +233,7 @@
         </div>
 
     </div>
+    
 @if(session('success'))
 <script>
     Swal.fire({
@@ -166,6 +257,54 @@
     });
 </script>
 @endif
+
+@if(session('status'))
+<script>
+    Swal.fire({
+        icon: 'info',
+        title: 'Informasi',
+        text: '{{ session('status') }}',
+        timer: 3000,
+        showConfirmButton: false
+    });
+</script>
+@endif
+
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordInput = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    @if ($errors->any())
+        Swal.fire({
+            icon: 'error',
+            title: 'Login Gagal!',
+            text: '{{ $errors->first() }}',
+            timer: 4000,
+            showConfirmButton: false
+        });
+    @endif
+
+    // Handle authentication errors specifically
+    @auth
+    @else
+        @if(request('failed') || session('failed'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Gagal!',
+                text: 'Email atau password yang Anda masukkan salah.',
+                timer: 4000,
+                showConfirmButton: false
+            });
+        @endif
+    @endauth
+</script>
 
 </body>
 </html>

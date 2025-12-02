@@ -65,5 +65,15 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\RoleMiddleware::class,
+        'clear.errors' => \App\Http\Middleware\ClearSessionErrors::class,
+    ];
+
+    /**
+     * The application's route middleware.
+     *
+     * @var array<string, class-string>
+     */
+    protected $routeMiddleware = [
+        'payment.completed' => \App\Http\Middleware\EnsurePaymentCompleted::class,
     ];
 }

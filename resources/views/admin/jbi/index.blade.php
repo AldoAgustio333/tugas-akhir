@@ -194,6 +194,15 @@
           </div>
 
           <div class="form-group">
+            <input type="time" name="jam" id="jam" class="form-control" placeholder="Jam Tersedia" required>
+          </div>
+
+          <div class="form-group">
+  <label for="jam_selesai" class="text-dark">Jam Selesai:</label>
+  <input type="time" name="jam_selesai" id="jam_selesai" class="form-control" required>
+</div>
+
+          <div class="form-group">
             <!-- <label>Alamat:</label> -->
             <textarea name="alamat" class="form-control" rows="2" required placeholder="Alamat">{{ $jbi->alamat }}</textarea>
           </div>
@@ -249,20 +258,16 @@
           </button>
         </div>
 
-        
         <div class="modal-body">
           <div class="form-group">
-            <!-- <label>Nama:</label> -->
             <input type="text" name="nama" class="form-control" placeholder="Username" required>
           </div>
 
           <div class="form-group">
-            <!-- <label>Keahlian:</label> -->
-            <input type="text" name="keahlian" class="form-control"  placeholder="Keahlian" required>
+            <input type="text" name="keahlian" class="form-control" placeholder="Keahlian" required>
           </div>
 
           <div class="form-group">
-            <!-- <label>Jenis Kelamin:</label> -->
             <select name="jk" class="form-control" required>
               <option value="">-- Pilih Jenis Kelamin --</option>
               <option value="Laki-laki">Laki-laki</option>
@@ -271,32 +276,38 @@
           </div>
 
           <div class="form-group">
-            <!-- <label>No. HP:</label> -->
-            <input type="text" name="no_hp" class="form-control"  placeholder="No Hp" required>
+            <input type="text" name="no_hp" class="form-control" placeholder="No Hp" required>
           </div>
 
           <div class="form-group">
-            <!-- <label>Ketersediaan:</label> -->
             <select name="ketersediaan" class="form-control" required>
-              <option value="">-- Pilih Ketersediaan--</option>
+              <option value="">-- Pilih Ketersediaan --</option>
               <option value="Tersedia">Tersedia</option>
               <option value="Tidak Tersedia">Tidak Tersedia</option>
             </select>
           </div>
 
-
           <div class="form-group">
-            <!-- <label>Jadwal:</label> -->
-            <input type="text" name="jadwal" class="form-control"  placeholder="Jadwal" required>
+            <input type="text" name="jadwal" class="form-control" placeholder="Jadwal" required>
+          </div>
+
+          <!-- ✅ Tambahan kolom jam tersedia -->
+          <div class="form-group">
+            <label for="jam_selesai" class="text-dark">Jam Tersedia:</label>
+            <input type="time" name="jam" id="jam" class="form-control" placeholder="Jam Tersedia" required>
           </div>
 
           <div class="form-group">
-            <!-- <label>Alamat:</label> -->
+          <label for="jam_selesai" class="text-dark">Sampai Jam:</label>
+          <input type="time" name="jam_selesai" id="jam_selesai" class="form-control" required>
+        </div>
+          <!-- ✅ Akhir tambahan -->
+
+          <div class="form-group">
             <textarea name="alamat" class="form-control" rows="2" required placeholder="Alamat"></textarea>
           </div>
 
           <div class="form-group">
-            <!-- <label>Layanan:</label> -->
             <select name="layanan" class="form-control" required>
               <option value="">-- Pilih Layanan --</option>
               <option value="Gratis">Gratis</option>
@@ -305,14 +316,12 @@
           </div>
 
           <div class="form-group">
-            <!-- <label for="status">Status</label> -->
             <select name="status" id="status" class="form-control">
               <option value="">-- Pilih Status --</option>
-                <option value="aktif">Aktif</option>
-                <option value="tidak aktif">Tidak Aktif</option>
+              <option value="aktif">Aktif</option>
+              <option value="tidak aktif">Tidak Aktif</option>
             </select>
-        </div>
-
+          </div>
 
           <div class="form-group">
             <label>Foto (opsional):</label>
@@ -320,7 +329,7 @@
           </div>
         </div>
         
-       <div class="modal-footer flex-column w-100">
+        <div class="modal-footer flex-column w-100">
           <button type="submit" class="btn btn-success w-100 mb-2">Simpan</button>
           <button type="button" class="btn btn-secondary w-100" data-dismiss="modal">Batal</button>
         </div>
@@ -329,6 +338,7 @@
     </form>
   </div>
 </div>
+
 
     <!-- Footer -->
     @include('admin.partials.footer')

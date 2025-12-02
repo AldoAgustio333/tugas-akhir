@@ -8,7 +8,28 @@
 
 <style>
       * {
-    font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins', sans-serif;
+    }
+
+/* Ensure proper layout and prevent navbar issues */
+body {
+    position: relative;
+    margin: 0;
+    padding-top: 0;
+}
+
+.navbar {
+    position: relative !important;
+    z-index: 1030 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+/* Ensure container doesn't overlap navbar */
+.container {
+    position: relative;
+    z-index: 1;
 }
 
 input {
@@ -17,6 +38,87 @@ input {
 
 .details p{
     font-size:12px;
+}
+
+/* Enhanced Form Styling */
+.card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.form-control, .form-select {
+    border-radius: 10px;
+    border: 2px solid #e5e7eb;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #14532d;
+    box-shadow: 0 0 0 0.2rem rgba(20, 83, 45, 0.25);
+}
+
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    .card {
+        margin-bottom: 20px;
+    }
+    .card-body {
+        padding: 20px 15px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 14px;
+        padding: 12px;
+    }
+    h4 {
+        font-size: 1.3rem;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+    input, select, textarea {
+        font-size: 14px;
+    }
+    .col-md-6 {
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-body {
+        padding: 15px;
+    }
+    .form-control {
+        font-size: 14px;
+    }
+    .btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+    .details p {
+        font-size: 12px;
+    }
+    h4 {
+        font-size: 1.2rem;
+    }
 }
 
 td{
@@ -121,6 +223,15 @@ select.form-control {
         </td>
     </tr>
     <tr>
+        <td style="padding: 4px 0; font-weight: bold;">Jam Tersedia</td>
+        <td style="padding: 4px 10px;">:</td>
+        <td style="padding: 4px 0;">
+            <span class="badge bg-success">{{ $jbi->jam ?? '-' }}</span>
+            <span class="badge bg-primary">-</span>
+            <span class="badge bg-danger">{{ $jbi->jam_selesai ?? '-' }}</span>
+        </td>
+    </tr>
+    <tr>
         <td style="padding: 4px 0; font-weight: bold;">Rating</td>
         <td style="padding: 4px 10px;">:</td>
         <td style="padding: 4px 0;">
@@ -144,38 +255,62 @@ select.form-control {
                         <input type="hidden" name="jbi_id" value="{{ $jbi->id }}">
                         
                         <div class="mb-3">
-                            <!-- <label for="nama_pemesan" class="form-label">Nama Pemesan</label> -->
-                            <span> * Nama Sudah otomatis terisi sesuai login</span>
+                            <label for="nama_pemesan" class="form-label">
+                                <i class="fas fa-user me-1"></i>Nama Pemesan <span class="text-danger">*</span>
+                            </label>
+                            <span class="small text-muted">Nama sudah otomatis terisi sesuai login</span>
                             <input type="text" class="form-control" id="nama_pemesan" name="nama_pemesan"
                             value="{{ Auth::user()->name }}" readonly>
                         </div>
                         
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Masukan Email">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope me-1"></i>Email <span class="text-danger">*</span>
+                            </label>
+                            <input type="email" class="form-control" id="email" name="email" 
+                            placeholder="Masukan Email" value="{{ Auth::user()->email ?? '' }}" required>
+                            <small class="text-muted">Email wajib diisi untuk konfirmasi pemesanan</small>
                         </div>
                         
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="no_hp" name="no_hp" placeholder="Masukan No Hp">
+                            <label for="no_hp" class="form-label">
+                                <i class="fas fa-phone me-1"></i>No Handphone <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="no_hp" name="no_hp" 
+                            placeholder="Contoh: 081234567890" value="{{ Auth::user()->no_hp ?? '' }}" required>
+                            <small class="text-muted">Nomor HP wajib diisi untuk koordinasi dengan JBI</small>
                         </div>
 
                         <div class="mb-3">
-                            <input type="date" class="form-control" id="tanggal" name="tanggal"  required>
+                            <label for="tanggal" class="form-label">
+                                <i class="fas fa-calendar me-1"></i>Tanggal Pemesanan <span class="text-danger">*</span>
+                            </label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal" required 
+                            min="{{ date('Y-m-d') }}">
+                            <small class="text-muted">Pilih tanggal sesuai jadwal JBI: {{ $jbi->jadwal }}</small>
                         </div>
 
-                        <!-- Tambahan di atas button submit -->
-                        <div class="row display-flex align-center jusify-center">
+                        <!-- Waktu Pelayanan -->
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-clock me-1"></i>Waktu Pelayanan <span class="text-danger">*</span>
+                            </label>
+                            <small class="text-muted d-block mb-2">Jam kerja JBI: {{ $jbi->jam ?? 'Tidak ditentukan' }} - {{ $jbi->jam_selesai ?? 'Tidak ditentukan' }}</small>
+                        </div>
+                        
+                        <div class="row">
                             <div class="col-md-5">
                                 <div class="mb-3">
-                                    <!-- <label for="jam_awal" class="form-label">Dari Jam</label> -->
+                                    <label for="jam_awal" class="form-label">Dari Jam</label>
                                     <input type="time" class="form-control" id="jam_awal" name="jam_awal" required>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <p>Sampai</p>
+                            <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                <p class="mb-0">Sampai</p>
                             </div>
                             <div class="col-md-5">
                                 <div class="mb-3">
-                                    <!-- <label for="jam_akhir" class="form-label">Sampai Jam</label> -->
+                                    <label for="jam_akhir" class="form-label">Sampai Jam</label>
                                     <input type="time" class="form-control" id="jam_akhir" name="jam_akhir" required>
                                 </div>
                             </div>
@@ -183,8 +318,12 @@ select.form-control {
 
                         
                         <div class="mb-3">
-                            <!-- <label for="deskripsi" class="form-label">Deskripsi Acara / Kebutuhan</label> -->
-                            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" required placeholder="Keterangan"></textarea>
+                            <label for="deskripsi" class="form-label">
+                                <i class="fas fa-edit me-1"></i>Deskripsi Kebutuhan <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" required 
+                            placeholder="Jelaskan kebutuhan layanan JBI Anda (contoh: acara seminar, rapat, dll)"></textarea>
+                            <small class="text-muted">Berikan detail kebutuhan layanan untuk membantu JBI mempersiapkan diri</small>
                         </div>
 
                         <!-- Optional preview biaya & durasi -->
@@ -315,36 +454,64 @@ select.form-control {
     </div>
 </section>
 @push('scripts')
-@push('scripts')
-@push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const jamAwal = document.getElementById('jam_awal');
         const jamAkhir = document.getElementById('jam_akhir');
         const estimasiBiaya = document.getElementById('previewBiaya');
-        const layanan = document.getElementById('layanan').value; 
+        const biayaHidden = document.getElementById('biayaHidden');
+        const layanan = "{{ $jbi->layanan }}";
+        
+        // Jam kerja JBI
+        const jamMulaiJBI = "{{ $jbi->jam ?? '00:00' }}";
+        const jamSelesaiJBI = "{{ $jbi->jam_selesai ?? '23:59' }}";
+
+        function validasiJamKerja(jam) {
+            if (!jamMulaiJBI || !jamSelesaiJBI) return true; // Jika tidak ada jam kerja, anggap valid
+            
+            return jam >= jamMulaiJBI && jam <= jamSelesaiJBI;
+        }
 
         function hitungBiaya() {
-            const awal = jamAwal.value;
-            const akhir = jamAkhir.value;
-
-            if (!awal || !akhir) {
+            if (!jamAwal.value || !jamAkhir.value) {
                 estimasiBiaya.textContent = '-';
+                biayaHidden.value = 0;
                 return;
             }
 
-            const [jamAwalJam, jamAwalMenit] = awal.split(':').map(Number);
-            const [jamAkhirJam, jamAkhirMenit] = akhir.split(':').map(Number);
+            // Validasi jam kerja JBI
+            if (!validasiJamKerja(jamAwal.value)) {
+                estimasiBiaya.textContent = `Jam mulai di luar jam kerja JBI (${jamMulaiJBI} - ${jamSelesaiJBI})`;
+                biayaHidden.value = 0;
+                return;
+            }
 
-            const mulai = new Date(0, 0, 0, jamAwalJam, jamAwalMenit);
-            const selesai = new Date(0, 0, 0, jamAkhirJam, jamAkhirMenit);
+            if (!validasiJamKerja(jamAkhir.value)) {
+                estimasiBiaya.textContent = `Jam selesai di luar jam kerja JBI (${jamMulaiJBI} - ${jamSelesaiJBI})`;
+                biayaHidden.value = 0;
+                return;
+            }
+
+            let mulai = new Date(`1970-01-01T${jamAwal.value}:00`);
+            let selesai = new Date(`1970-01-01T${jamAkhir.value}:00`);
+
+            if (selesai <= mulai) {
+                estimasiBiaya.textContent = 'Jam selesai harus setelah jam mulai';
+                biayaHidden.value = 0;
+                return;
+            }
 
             let durasi = (selesai - mulai) / 3600000; // dalam jam
 
-            biayaHidden.value = 0; 
-
             if (durasi <= 0) {
                 estimasiBiaya.textContent = 'Jam tidak valid';
+                biayaHidden.value = 0;
+                return;
+            }
+
+            if (durasi > 6) {
+                estimasiBiaya.textContent = 'Durasi melebihi batas (maksimal 6 jam)';
+                biayaHidden.value = 0;
                 return;
             }
 
@@ -357,26 +524,30 @@ select.form-control {
                     biaya = 150000;
                 } else if (durasi <= 4) {
                     biaya = 300000;
-                } else if (durasi <= 6) {
-                    biaya = 600000;
                 } else {
-                    estimasiBiaya.textContent = 'Durasi melebihi batas (maks 6 jam)';
-                    return;
+                    biaya = 600000;
                 }
             }
 
             biayaHidden.value = biaya;
-            estimasiBiaya.textContent = biaya === 0 ? 'Free' : `Rp ${biaya.toLocaleString()}`;
+            estimasiBiaya.textContent = biaya === 0 ? 'Gratis' : `Rp ${biaya.toLocaleString('id-ID')}`;
         }
 
+        // Event listeners
         jamAwal.addEventListener('change', hitungBiaya);
         jamAkhir.addEventListener('change', hitungBiaya);
+        jamAwal.addEventListener('input', hitungBiaya);
+        jamAkhir.addEventListener('input', hitungBiaya);
+        
+        // Form submission validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (!validasiJamKerja(jamAwal.value) || !validasiJamKerja(jamAkhir.value)) {
+                e.preventDefault();
+                alert(`Jam pemesanan harus dalam jam kerja JBI: ${jamMulaiJBI} - ${jamSelesaiJBI}`);
+            }
+        });
     });
 </script>
-@endpush
-
-@endpush
-
 @endpush
 
 @endsection

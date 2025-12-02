@@ -26,8 +26,13 @@ Route::get('/', function () {
 
 require __DIR__.'/auth.php';
 
-Route::middleware(['auth', 'role:user'])->group(function () {
+Route::middleware(['auth', 'role:user', 'clear.errors'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+
+    // Test status page
+    Route::get('/test-status', function() {
+        return view('test-status');
+    })->name('test.status');
 
     Route::get('profil', [UserController::class, 'profil'])->name('user.profil');
     Route::post('/profil/update', [UserController::class, 'updateProfil'])->name('user.updateProfil');
@@ -44,12 +49,16 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     // Routes untuk pembayaran
     Route::get('/pembayaran/{id}/step1', [JbiController::class, 'step1'])->name('pembayaran.pembayaran_step1');
     Route::post('/pembayaran/{id}/step2', [JbiController::class, 'step2'])->name('pembayaran.pembayaran_step2');
+    Route::get('/pembayaran/{id}/konfirmasi', [JbiController::class, 'showKonfirmasi'])->name('pembayaran.show_konfirmasi');
     Route::post('/pembayaran/{id}/konfirmasi', [JbiController::class, 'konfirmasi'])->name('pembayaran.pembayaran_konfirmasi');
     Route::post('/pembayaran/kirim/{id}', [JbiController::class, 'uploadBukti'])->name('pembayaran.uploadBukti');
 
     Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
     Route::get('/riwayat/{id}', [RiwayatController::class, 'show'])->name('riwayat.show');
     Route::get('/riwayat/{id}/invoice', [RiwayatController::class, 'invoice'])->name('riwayat.invoice');
+    
+    // Route untuk melanjutkan pembayaran yang tertinggal
+    Route::get('/pembayaran/lanjutkan/{id}', [JbiController::class, 'lanjutkanPembayaran'])->name('pembayaran.lanjutkan');
 
     Route::post('/testimoni/store', [TestimoniController::class, 'store'])->name('testimoni.store');
     Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni.index');

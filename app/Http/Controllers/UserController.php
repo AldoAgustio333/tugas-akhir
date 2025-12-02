@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Jbi;
+use App\Models\Pemesanan;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -16,14 +17,22 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function dashboard() 
+    public function dashboard()
     {
+        // Clear any lingering error sessions to prevent random popups
+        session()->forget(['errors', 'error']);
         
         $jbis = Jbi::latest()->take(5)->get(); // ambil 5 jbi terbaru
-    return view('user.dashboard', compact('jbis'));
-    }   
 
-    public function create()
+        // Ambil pemesanan yang tertinggal (pending dan berbayar) berdasarkan email user
+        $pemesananPending = Pemesanan::where('email', auth()->user()->email)
+                                 ->where('status', '!=', 'disetujui')
+                                 ->where('status', '!=', 'completed')
+                                 ->with('jbi')
+                                 ->get();
+
+        return view('user.dashboard', compact('jbis', 'pemesananPending'));
+    }    public function create()
     {
         return view('admin.users.create');
     }

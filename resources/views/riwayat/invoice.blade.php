@@ -4,30 +4,85 @@
 
 @section('content')
 <style>
-    .card-invoice{
-        background-color:#EBEBEB;
-        padding:20px;
-        border-radius:10px;
-        max-width:500px;
-        margin-bottom:30px;
+    .card-invoice {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 0 auto 30px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-     table th{
-        width:300px;
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
     }
 
-      .dibayar{
-        border-bottom:2px solid gray;
+    table th, table td {
+        text-align: left;
+        padding: 8px 12px;
+        border-bottom: 1px solid #ddd;
     }
 
-    textarea{
-        width:500px;
-        background-color:#EBEBEB;
-        height:200px;
-        outline:none;
-        padding:10px;
+    table th {
+        background-color: #f1f1f1;
+        font-weight: 600;
     }
 
+    .section-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+
+    .dibayar {
+        border-bottom: 2px solid #ccc;
+    }
+
+    textarea {
+        width: 100%;
+        background-color: #f9f9f9;
+        height: 150px;
+        outline: none;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .card-invoice {
+            padding: 15px;
+        }
+
+        table th, table td {
+            padding: 6px 8px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+        }
+
+        textarea {
+            height: 120px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .card-invoice {
+            padding: 10px;
+        }
+
+        table th, table td {
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+        }
+    }
 </style>
 
 
