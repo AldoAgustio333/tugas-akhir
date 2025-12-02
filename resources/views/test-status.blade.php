@@ -1,3 +1,5 @@
+<!-- test update -->
+
 @extends('layouts.user')
 
 @section('title', 'Test Platform JBI')
